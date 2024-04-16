@@ -43,7 +43,7 @@ struct AgedBrieCalulator: ItemQualityCalculator {
         
         item.sellIn = item.sellIn - 1
         
-        if item.sellIn < 0 && item.quality < 50 {
+        if item.isExpired && item.quality < 50 {
             item.quality = item.quality + 1
         }
     }
@@ -69,7 +69,7 @@ struct BackstageCalulator: ItemQualityCalculator {
         
         item.sellIn = item.sellIn - 1
         
-        if item.sellIn < 0 {
+        if item.isExpired {
             item.quality = item.quality - item.quality
         }
     }
@@ -85,7 +85,7 @@ struct ItemCalulator: ItemQualityCalculator {
         
         item.sellIn = item.sellIn - 1
         
-        if item.sellIn < 0 && item.quality > 0 {
+        if item.isExpired && item.quality > 0 {
             item.quality = item.quality - 1
         }
     }
