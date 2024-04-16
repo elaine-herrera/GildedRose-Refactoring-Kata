@@ -70,7 +70,7 @@ struct BackstageCalulator: ItemQualityCalculator {
         item.sellIn = item.sellIn - 1
         
         if item.isExpired {
-            item.quality = item.quality - item.quality
+            item.quality = 0
         }
     }
 }
