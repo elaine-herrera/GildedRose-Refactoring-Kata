@@ -12,10 +12,11 @@ class GildedRoseTests: XCTestCase {
             Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 15, quality: 20),
             Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 10, quality: 49),
             Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 5, quality: 49),
+            Item(name: "Conjured Mana Cake", sellIn: 3, quality: 6)
         ]
         let app = GildedRose(items: items)
         
-        let quality = [19, 1, 6, 80, 80, 21, 50, 50]
+        let quality = [19, 1, 6, 80, 80, 21, 50, 50, 4]
         
         app.updateQuality()
         

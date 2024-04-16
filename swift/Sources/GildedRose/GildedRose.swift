@@ -23,6 +23,10 @@ public class GildedRose {
         if item.name == "Sulfuras, Hand of Ragnaros" {
             return
         }
+        if item.name == "Conjured Mana Cake" {
+            ConjuredCalulator(item: item).updateQuality()
+            return
+        }
         ItemCalulator(item: item).updateQuality()
     }
 }
@@ -86,6 +90,22 @@ struct ItemCalulator: ItemQualityCalculator {
         item.sellIn = item.sellIn - 1
         
         if item.isExpired && item.quality > 0 {
+            item.quality = item.quality - 1
+        }
+    }
+}
+
+struct ConjuredCalulator: ItemQualityCalculator {
+    var item: Item
+    
+    func updateQuality() {
+        if item.quality > 0 {
+            item.quality = item.quality - 1
+        }
+        
+        item.sellIn = item.sellIn - 1
+        
+        if item.quality > 0 {
             item.quality = item.quality - 1
         }
     }
