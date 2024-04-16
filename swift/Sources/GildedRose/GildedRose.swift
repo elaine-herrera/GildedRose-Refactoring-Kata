@@ -17,24 +17,7 @@ public class GildedRose {
             return
         }
         if item.name == "Backstage passes to a TAFKAL80ETC concert"{
-            if item.quality < 50 {
-                item.quality = item.quality + 1
-                
-                if item.sellIn < 11 && item.quality < 50 {
-                    item.quality = item.quality + 1
-                }
-                
-                if item.sellIn < 6 && item.quality < 50 {
-                    item.quality = item.quality + 1
-                }
-            }
-            
-            item.sellIn = item.sellIn - 1
-            
-            if item.sellIn < 0 {
-                item.quality = item.quality - item.quality
-            }
-            
+            BackstageCalulator(item: item).updateQuality()
             return
         }
         if item.name == "Sulfuras, Hand of Ragnaros" {
@@ -71,6 +54,32 @@ struct AgedBrieCalulator: ItemQualityCalculator {
         
         if item.sellIn < 0 && item.quality < 50 {
             item.quality = item.quality + 1
+        }
+    }
+}
+
+struct BackstageCalulator: ItemQualityCalculator {
+    var maxValue: Int = 50
+    
+    var item: Item
+    
+    func updateQuality() {
+        if item.quality < maxValue {
+            item.quality = item.quality + 1
+            
+            if item.sellIn < 11 && item.quality < maxValue {
+                item.quality = item.quality + 1
+            }
+            
+            if item.sellIn < 6 && item.quality < maxValue {
+                item.quality = item.quality + 1
+            }
+        }
+        
+        item.sellIn = item.sellIn - 1
+        
+        if item.sellIn < 0 {
+            item.quality = item.quality - item.quality
         }
     }
 }
