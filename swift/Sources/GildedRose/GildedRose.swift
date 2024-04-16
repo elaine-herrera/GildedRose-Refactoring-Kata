@@ -23,16 +23,7 @@ public class GildedRose {
         if item.name == "Sulfuras, Hand of Ragnaros" {
             return
         }
-        
-        if item.quality > 0 {
-            item.quality = item.quality - 1
-        }
-        
-        item.sellIn = item.sellIn - 1
-        
-        if item.sellIn < 0 && item.quality > 0 {
-            item.quality = item.quality - 1
-        }
+        ItemCalulator(item: item).updateQuality()
     }
 }
 
@@ -80,6 +71,22 @@ struct BackstageCalulator: ItemQualityCalculator {
         
         if item.sellIn < 0 {
             item.quality = item.quality - item.quality
+        }
+    }
+}
+
+struct ItemCalulator: ItemQualityCalculator {
+    var item: Item
+    
+    func updateQuality() {
+        if item.quality > 0 {
+            item.quality = item.quality - 1
+        }
+        
+        item.sellIn = item.sellIn - 1
+        
+        if item.sellIn < 0 && item.quality > 0 {
+            item.quality = item.quality - 1
         }
     }
 }
