@@ -33,23 +33,27 @@ struct BackstageCalulator: ItemQualityCalculator {
     var item: Item
     
     func updateQuality() {
-        if item.quality < maxValue {
-            item.quality = item.quality + 1
-            
-            if item.sellIn < 11 && item.quality < maxValue {
-                item.quality = item.quality + 1
-            }
-            
-            if item.sellIn < 6 && item.quality < maxValue {
-                item.quality = item.quality + 1
-            }
-        }
-        
         item.sellIn = item.sellIn - 1
         
         if item.isExpired {
             item.quality = 0
+            return
         }
+        
+        increaseQualityIfPosible()
+        
+        if item.sellIn < 10 {
+            increaseQualityIfPosible()
+        }
+        
+        if item.sellIn < 5 {
+            increaseQualityIfPosible()
+        }
+    }
+    
+    private func increaseQualityIfPosible(){
+        guard item.quality < maxValue else { return }
+        item.quality += 1
     }
 }
 
