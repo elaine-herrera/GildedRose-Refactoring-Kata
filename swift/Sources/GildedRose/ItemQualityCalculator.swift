@@ -62,15 +62,18 @@ struct ItemCalulator: ItemQualityCalculator {
     var item: Item
     
     func updateQuality() {
-        if item.quality > 0 {
-            item.quality = item.quality - 1
-        }
-        
         item.sellIn = item.sellIn - 1
         
-        if item.isExpired && item.quality > 0 {
-            item.quality = item.quality - 1
+        decreaseQualityIfPosible()
+        
+        if item.isExpired {
+            decreaseQualityIfPosible()
         }
+    }
+    
+    private func decreaseQualityIfPosible(){
+        guard item.quality > 0 else { return }
+        item.quality -= 1
     }
 }
 
