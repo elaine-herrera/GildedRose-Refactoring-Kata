@@ -23,4 +23,73 @@ class GildedRoseTests: XCTestCase {
             XCTAssertEqual(result.quality, expected)
         }
     }
+    
+    func testEmptyInventory(){
+        let items: [Item] = []
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertTrue(app.items.isEmpty)
+    }
+    
+    func testItemQualityNegative() throws {
+        let sellIn = 5
+        let quality = -3
+        let items = [Item(name: "Some", sellIn: sellIn, quality: quality)]
+        let app = GildedRose(items: items)
+        
+        app.updateQuality()
+        
+        XCTAssertEqual(app.items[0].sellIn, sellIn - 1)
+        XCTAssertEqual(app.items[0].quality, quality)
+    }
+    
+    func testItemQualityZero() throws {
+        let sellIn = 5
+        let items = [Item(name: "Some", sellIn: sellIn, quality: 0)]
+        let app = GildedRose(items: items)
+        
+        app.updateQuality()
+        
+        XCTAssertEqual(app.items[0].sellIn, sellIn - 1)
+        XCTAssertEqual(app.items[0].quality, 0)
+    }
+    
+    func testItemQualityDecresase() throws {
+        let sellIn = 5
+        let quality = 2
+        let items = [Item(name: "Some", sellIn: sellIn, quality: quality)]
+        let app = GildedRose(items: items)
+        
+        app.updateQuality()
+        
+        XCTAssertEqual(app.items[0].sellIn, sellIn - 1)
+        XCTAssertEqual(app.items[0].quality, quality - 1)
+    }
+    
+    func testItemQualityIsZeroAfterSellIn() throws {
+        let sellIn = 0
+        let quality = 2
+        let items = [Item(name: "Some", sellIn: sellIn, quality: quality)]
+        let app = GildedRose(items: items)
+        
+        app.updateQuality()
+        
+        XCTAssertEqual(app.items[0].sellIn, sellIn - 1)
+        XCTAssertEqual(app.items[0].quality, 0)
+    }
+    
+    func testItemQualityDropTwiceAfterSellIn() throws {
+        let days = 5
+        let sellIn = days - 1
+        let quality = days + 1
+        let items = [Item(name: "Some", sellIn: sellIn, quality: quality)]
+        let app = GildedRose(items: items)
+        
+        for _ in 0 ..< days {
+            app.updateQuality()
+        }
+        
+        XCTAssertEqual(app.items[0].sellIn, sellIn - days)
+        XCTAssertEqual(app.items[0].quality, quality - sellIn - 2 * (days - sellIn))
+    }
 }
