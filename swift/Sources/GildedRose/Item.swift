@@ -15,3 +15,9 @@ extension Item: CustomStringConvertible {
         name + ", " + String(sellIn) + ", " + String(quality)
     }
 }
+
+extension Item {
+    var isExpired: Bool {
+        get { sellIn < 0 }
+    }
+}

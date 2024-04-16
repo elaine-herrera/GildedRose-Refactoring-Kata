@@ -13,16 +13,7 @@ public class GildedRose {
     
     private func updateQuality(item: Item) {
         if item.name == "Aged Brie" {
-            if item.quality < 50 {
-                item.quality = item.quality + 1
-            }
-            
-            item.sellIn = item.sellIn - 1
-            
-            if item.sellIn < 0 && item.quality < 50 {
-                item.quality = item.quality + 1
-            }
-            
+            AgedBrieCalulator(item: item).updateQuality()
             return
         }
         if item.name == "Backstage passes to a TAFKAL80ETC concert"{
@@ -58,6 +49,28 @@ public class GildedRose {
         
         if item.sellIn < 0 && item.quality > 0 {
             item.quality = item.quality - 1
+        }
+    }
+}
+
+protocol ItemQualityCalculator {
+    func updateQuality()
+}
+
+struct AgedBrieCalulator: ItemQualityCalculator {
+    var maxValue: Int = 50
+    
+    var item: Item
+    
+    func updateQuality() {
+        if item.quality < 50 {
+            item.quality = item.quality + 1
+        }
+        
+        item.sellIn = item.sellIn - 1
+        
+        if item.sellIn < 0 && item.quality < 50 {
+            item.quality = item.quality + 1
         }
     }
 }
